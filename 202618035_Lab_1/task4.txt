@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Insights and interpretations:
 
 1. From the price distribution graph, it shows that the price of the books in the sample varies between 10.00 Euros to 60.00 Euros
@@ -10,4 +11,18 @@ Insights and interpretations:
 
 5. Each and every book from the 5 pages are available, reducing the chances of a particular book being sold out or out of stock.
 
+=======
+Insights and interpretations:
+
+1. From the price distribution graph, it shows that the price of the books in the sample varies between 10.00 Euros to 60.00 Euros
+
+2. From the avgerage price by category graph, it shows that the books which belong to the political background as well as travel rank amongst the highest mean price of more than 40.00 Euros.
+
+3. It is seen that every book has an average of 200-225 words in the description of the book
+
+4. There is no relation between the price of the book and its rating. It can be seen that high prices books are also rated with one star as well as medium ranged books are also rated with one star.
+
+5. Each and every book from the 5 pages are available, reducing the chances of a particular book being sold out or out of stock.
+
+>>>>>>> d6f88a4d189e41fe2a496010b2c32c80695dc817
 6. Across the sample set of 100 books, it has been seen that there is a large variety of books available. The books are availablein more than 10 genres.
