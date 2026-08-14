@@ -1,5 +1,4 @@
 # 202618035_HetChokshi_DS605
-<<<<<<< HEAD
 DS605: Fundamentals of Machine Learning
 
 Lab Assignment 1: Data Scraping and Preprocessing using Python and Scrapy
@@ -124,6 +123,4 @@ Task 4: Insights and Interpretation
         
         7. Description Word Cloud: Word cloud visualization shows recurring narrative themes centered around keywords such as world, story, life, family, and novel.  
          
-=======
 
->>>>>>> 375a5fff8c06fac5ddb864eda65b865a57b85a89
