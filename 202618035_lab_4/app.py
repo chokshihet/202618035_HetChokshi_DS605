@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import joblib
+from pathlib import Path
 
 
 # --------------------------------------------------
@@ -20,7 +21,8 @@ st.set_page_config(
 
 @st.cache_resource
 def load_model():
-    return joblib.load("model.pkl")
+    model_path = Path(__file__).resolve().parent / "model.pkl"
+    return joblib.load(model_path)
 
 
 model = load_model()
