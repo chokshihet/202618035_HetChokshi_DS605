@@ -1,0 +1,215 @@
+import streamlit as st
+import pandas as pd
+import joblib
+
+
+# --------------------------------------------------
+# Page Configuration
+# --------------------------------------------------
+
+st.set_page_config(
+    page_title="NYC Airbnb Price Predictor",
+    page_icon="🏠",
+    layout="centered"
+)
+
+
+# --------------------------------------------------
+# Load Trained Model
+# --------------------------------------------------
+
+@st.cache_resource
+def load_model():
+    return joblib.load("model.pkl")
+
+
+model = load_model()
+
+
+# --------------------------------------------------
+# Application Title
+# --------------------------------------------------
+
+st.title("🏠 NYC Airbnb Price Predictor")
+
+st.write(
+    "Enter the details of an Airbnb listing to estimate its nightly price."
+)
+
+st.divider()
+
+
+# --------------------------------------------------
+# User Inputs
+# --------------------------------------------------
+
+st.subheader("Airbnb Listing Details")
+
+
+neighbourhood_group = st.selectbox(
+    "Neighbourhood Group",
+    [
+        "Bronx",
+        "Brooklyn",
+        "Manhattan",
+        "Queens",
+        "Staten Island"
+    ]
+)
+
+
+# Neighbourhoods grouped by borough
+
+neighbourhoods = {
+    "Bronx": [
+        "Allerton", "Belmont", "Bronxdale", "City Island",
+        "Fordham", "Highbridge", "Hunts Point", "Kingsbridge",
+        "Longwood", "Morrisania", "Mott Haven", "Pelham Bay",
+        "Riverdale", "Throgs Neck", "Tremont", "Wakefield",
+        "Williamsbridge", "Woodlawn"
+    ],
+
+    "Brooklyn": [
+        "Bedford-Stuyvesant", "Bensonhurst", "Borough Park",
+        "Brighton Beach", "Brooklyn Heights", "Bushwick",
+        "Canarsie", "Carroll Gardens", "Clinton Hill",
+        "Cobble Hill", "Coney Island", "Crown Heights",
+        "Downtown Brooklyn", "East Flatbush", "East New York",
+        "Flatbush", "Fort Greene", "Gowanus", "Greenpoint",
+        "Park Slope", "Prospect Heights", "Red Hook",
+        "Sunset Park", "Williamsburg"
+    ],
+
+    "Manhattan": [
+        "Chelsea", "Chinatown", "East Harlem",
+        "East Village", "Financial District", "Flatiron District",
+        "Greenwich Village", "Harlem", "Hell's Kitchen",
+        "Inwood", "Kips Bay", "Little Italy",
+        "Lower East Side", "Midtown", "Morningside Heights",
+        "Murray Hill", "SoHo", "Tribeca",
+        "Upper East Side", "Upper West Side",
+        "Washington Heights", "West Village"
+    ],
+
+    "Queens": [
+        "Astoria", "Bayside", "Corona", "Ditmars Steinway",
+        "Elmhurst", "Far Rockaway", "Flushing",
+        "Forest Hills", "Jackson Heights", "Jamaica",
+        "Long Island City", "Rego Park", "Ridgewood",
+        "Rockaway Beach", "Sunnyside", "Woodside"
+    ],
+
+    "Staten Island": [
+        "Arrochar", "Clifton", "Concord", "Dongan Hills",
+        "Great Kills", "Mariners Harbor", "New Dorp",
+        "Port Richmond", "Randall Manor", "Rosebank",
+        "Shore Acres", "St. George", "Stapleton",
+        "Tompkinsville", "Tottenville"
+    ]
+}
+
+neighbourhood = st.selectbox(
+    "Neighbourhood",
+    neighbourhoods[neighbourhood_group]
+)
+
+
+room_type = st.selectbox(
+    "Room Type",
+    [
+        "Entire home/apt",
+        "Private room",
+        "Shared room"
+    ]
+)
+
+
+latitude = st.number_input(
+    "Latitude",
+    value=40.8090,
+    format="%.5f"
+)
+
+
+longitude = st.number_input(
+    "Longitude",
+    value=-73.9419,
+    format="%.5f"
+)
+
+
+minimum_nights = st.number_input(
+    "Minimum Nights",
+    min_value=1,
+    value=2,
+    step=1
+)
+
+
+number_of_reviews = st.number_input(
+    "Number of Reviews",
+    min_value=0,
+    value=20,
+    step=1
+)
+
+
+reviews_per_month = st.number_input(
+    "Reviews per Month",
+    min_value=0.0,
+    value=1.5,
+    step=0.1
+)
+
+
+calculated_host_listings_count = st.number_input(
+    "Host Listings Count",
+    min_value=1,
+    value=1,
+    step=1
+)
+
+
+availability_365 = st.number_input(
+    "Availability (Days per Year)",
+    min_value=0,
+    max_value=365,
+    value=200,
+    step=1
+)
+
+
+# --------------------------------------------------
+# Prediction
+# --------------------------------------------------
+
+st.divider()
+
+
+if st.button("Predict Price", use_container_width=True):
+
+    input_data = pd.DataFrame({
+        "neighbourhood_group": [neighbourhood_group],
+        "neighbourhood": [neighbourhood],
+        "latitude": [latitude],
+        "longitude": [longitude],
+        "room_type": [room_type],
+        "minimum_nights": [minimum_nights],
+        "number_of_reviews": [number_of_reviews],
+        "reviews_per_month": [reviews_per_month],
+        "calculated_host_listings_count": [
+            calculated_host_listings_count
+        ],
+        "availability_365": [availability_365]
+    })
+
+    prediction = model.predict(input_data)[0]
+
+    st.success(
+        f"Estimated Nightly Price: ${prediction:.2f}"
+    )
+
+    st.caption(
+        "The predicted value is an estimate generated by the trained "
+        "machine learning model and may differ from the actual market price."
+    )
