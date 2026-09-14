@@ -4,9 +4,9 @@
 
 An end-to-end machine learning project for predicting the nightly price of Airbnb listings in New York City.
 
-> **Live Application:** Deployment link will be added after Streamlit Community Cloud deployment.
+Click here to open the NYC Airbnb Price Predictor](https://202618035hetchokshids605-h5z7uctbcc67nqfvmgu3an.streamlit.app/)
 
----
+
 
 ##  Project Overview
 
